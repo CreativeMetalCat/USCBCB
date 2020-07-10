@@ -4628,6 +4628,8 @@ class USoundWave* UVictoryBPFunctionLibrary::GetSoundWaveFromFile(const FString&
 	if (!loaded)
 		return NULL;
 
+
+
 	return sw;
 	#endif 
 }
@@ -4649,6 +4651,9 @@ int32 UVictoryBPFunctionLibrary::fillSoundWaveInfo(class USoundWave* sw, TArray<
     sw->Duration = info.Duration;
     sw->RawPCMDataSize = info.SampleDataSize;
     sw->SetSampleRate(info.SampleRate);
+
+	sw->RawPCMData = (uint8*)FMemory::Malloc(sw->RawPCMDataSize);
+	vorbis_obj.ExpandFile(sw->RawPCMData, &info);
 
     return 0;
 }

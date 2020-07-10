@@ -6,8 +6,9 @@ end
 function Player:OnFootstep()
 end
 
-function Player:GetFootstepSoundFilename()
-    return nil;--currenty no files are avalable
+--ProjectRootFolder - content folder during development and .exe location i n shipping mode
+function Player:GetFootstepSoundFilename(ProjectRootFolder)
+    return ProjectRootFolder.."Sounds/Step/Step".. math.random( 1,5 )..".ogg"
 end
 
 return Player;
