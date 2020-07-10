@@ -11,6 +11,8 @@ Door["moving"] = false;
 
 Door["doorOpenSoundFilePath"] = "Sounds/Door/DoorOpen1.ogg"
 
+Door["doorLockedSoundFilePath"] = "Sounds/Interact/Button2.ogg"
+
 Door["DoorObjectRef"] = nil;
 
 
@@ -35,6 +37,8 @@ function Door:StartMoving()
     then
         PlaySoundFromFile(GetProjectDir()..Door["doorOpenSoundFilePath"],Actor:GetLocation(self.GetSelf()),1)
         Door["moving"]=true;
+    else
+        PlaySoundFromFile(GetProjectDir()..Door["doorLockedSoundFilePath"],Actor:GetLocation(self.GetSelf()),1)
     end
 end
 
