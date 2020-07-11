@@ -74,24 +74,26 @@ public class VictoryBPLibrary : ModuleRules
 			}
 			);
 		
-		//APEX EXCLUSIONS
-		if (Target.Platform != UnrealTargetPlatform.Android && Target.Platform != UnrealTargetPlatform.IOS)
-		{
-			PrivateDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"APEX"
-			}
-			);
+		//APEX has issue with being packaged in 4.25
+
+		////APEX EXCLUSIONS
+		//if (Target.Platform != UnrealTargetPlatform.Android && Target.Platform != UnrealTargetPlatform.IOS)
+		//{
+		//	PrivateDependencyModuleNames.AddRange(
+		//	new string[]
+		//	{
+		//		"APEX"
+		//	}
+		//	);
 			
-			PublicDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"ApexDestruction"
-			}
-			);
+		//	PublicDependencyModuleNames.AddRange(
+		//	new string[]
+		//	{
+		//		"ApexDestruction"
+		//	}
+		//	);
 		
-		}
+		//}
 	
 		 
 		DynamicallyLoadedModuleNames.AddRange(

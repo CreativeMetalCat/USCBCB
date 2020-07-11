@@ -49,7 +49,7 @@
 //Body Setup
 #include "PhysicsEngine/BodySetup.h"
 
-#include "DestructibleComponent.h"
+//#include "DestructibleComponent.h"
 
 
 //Apex issues, can add iOS here  <3 Rama
@@ -571,46 +571,46 @@ bool UVictoryBPFunctionLibrary::VictoryPhysics_UpdateAngularDamping(UPrimitiveCo
 	return true;
 }
 	 
-bool UVictoryBPFunctionLibrary::VictoryDestructible_DestroyChunk(UDestructibleComponent* DestructibleComp, int32 HitItem)
-{   
-	#if WITH_APEX
-	if(!DestructibleComp) 
-	{
-		return false;
-	}
-	  
-	//Visibility
-	DestructibleComp->SetChunkVisible( HitItem, false );
-	 
-	//Collision
-	physx::PxShape** PShapes;
-	const physx::PxU32 PShapeCount = DestructibleComp->ApexDestructibleActor->getChunkPhysXShapes(PShapes, HitItem);
-	if (PShapeCount > 0)
-	{    
-		PxFilterData PQueryFilterData,PSimFilterData; //null data
-		  
-		for(uint32 ShapeIndex = 0; ShapeIndex < PShapeCount; ++ShapeIndex)
-		{ 
-			PxShape* Shape = PShapes[ShapeIndex];
-			if(!Shape) continue;
-			
-			{ 
-				SCOPED_SCENE_WRITE_LOCK(Shape->getActor()->getScene());
-				
-				Shape->setQueryFilterData(PQueryFilterData); //null data
-				Shape->setSimulationFilterData(PSimFilterData); //null data
-				Shape->setFlag(PxShapeFlag::eSCENE_QUERY_SHAPE, false);
-				Shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, false);
-				Shape->setFlag(PxShapeFlag::eVISUALIZATION, false);	
-			}
-		}
-	}
-	return true;
-	#endif //WITH_APEX
-	 
-	UE_LOG(LogTemp,Error,TEXT("UVictoryBPFunctionLibrary::VictoryDestructible_DestroyChunk ~ Current Platform does not support APEX"));
-	return false;
-}
+//bool UVictoryBPFunctionLibrary::VictoryDestructible_DestroyChunk(UDestructibleComponent* DestructibleComp, int32 HitItem)
+//{   
+//	#if WITH_APEX
+//	if(!DestructibleComp) 
+//	{
+//		return false;
+//	}
+//	  
+//	//Visibility
+//	DestructibleComp->SetChunkVisible( HitItem, false );
+//	 
+//	//Collision
+//	physx::PxShape** PShapes;
+//	const physx::PxU32 PShapeCount = DestructibleComp->ApexDestructibleActor->getChunkPhysXShapes(PShapes, HitItem);
+//	if (PShapeCount > 0)
+//	{    
+//		PxFilterData PQueryFilterData,PSimFilterData; //null data
+//		  
+//		for(uint32 ShapeIndex = 0; ShapeIndex < PShapeCount; ++ShapeIndex)
+//		{ 
+//			PxShape* Shape = PShapes[ShapeIndex];
+//			if(!Shape) continue;
+//			
+//			{ 
+//				SCOPED_SCENE_WRITE_LOCK(Shape->getActor()->getScene());
+//				
+//				Shape->setQueryFilterData(PQueryFilterData); //null data
+//				Shape->setSimulationFilterData(PSimFilterData); //null data
+//				Shape->setFlag(PxShapeFlag::eSCENE_QUERY_SHAPE, false);
+//				Shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, false);
+//				Shape->setFlag(PxShapeFlag::eVISUALIZATION, false);	
+//			}
+//		}
+//	}
+//	return true;
+//	#endif //WITH_APEX
+//	 
+//	UE_LOG(LogTemp,Error,TEXT("UVictoryBPFunctionLibrary::VictoryDestructible_DestroyChunk ~ Current Platform does not support APEX"));
+//	return false;
+//}
 
 static int32 GetChildBones(const FReferenceSkeleton& ReferenceSkeleton, int32 ParentBoneIndex, TArray<int32> & Children)
 { 
