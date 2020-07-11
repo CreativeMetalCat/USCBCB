@@ -31,14 +31,17 @@ function Door:OnTick(deltaTime)
     end
 end
 
-function Door:StartMoving()
-    Door["DoorObjectRef"] = self.GetSelf();
-    if(self.GetIsLocked()==false)
+function Door:StartMoving(Caller)
+    if(self.CanBeInteractedDirectly()==true)
     then
-        PlaySoundFromFile(GetProjectDir()..Door["doorOpenSoundFilePath"],Actor:GetLocation(self.GetSelf()),1)
-        Door["moving"]=true;
-    else
-        PlaySoundFromFile(GetProjectDir()..Door["doorLockedSoundFilePath"],Actor:GetLocation(self.GetSelf()),1)
+        Door["DoorObjectRef"] = self.GetSelf();
+        if(self.GetIsLocked()==false)
+        then
+            PlaySoundFromFile(GetProjectDir()..Door["doorOpenSoundFilePath"],Actor:GetLocation(self.GetSelf()),1)
+            Door["moving"]=true;
+        else
+            PlaySoundFromFile(GetProjectDir()..Door["doorLockedSoundFilePath"],Actor:GetLocation(self.GetSelf()),1)
+        end
     end
 end
 
