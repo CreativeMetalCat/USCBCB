@@ -32,15 +32,22 @@ function Door:OnTick(deltaTime)
 end
 
 function Door:StartMoving(Caller)
+    if(Caller==nil)then print("Error: Button was used by null object!") end
     if(self.CanBeInteractedDirectly()==true)
     then
         Door["DoorObjectRef"] = self.GetSelf();
-        if(self.GetIsLocked()==false)
+        if(self.GetIsLocked()==false or Cast:IsButton(Caller)==true)
         then
             PlaySoundFromFile(GetProjectDir()..Door["doorOpenSoundFilePath"],Actor:GetLocation(self.GetSelf()),1)
             Door["moving"]=true;
         else
             PlaySoundFromFile(GetProjectDir()..Door["doorLockedSoundFilePath"],Actor:GetLocation(self.GetSelf()),1)
+        end
+    else
+        if(Cast:IsButton(Caller)==true)
+        then
+            PlaySoundFromFile(GetProjectDir()..Door["doorOpenSoundFilePath"],Actor:GetLocation(self.GetSelf()),1)
+            Door["moving"]=true;
         end
     end
 end
