@@ -33,21 +33,24 @@ end
 
 function Door:StartMoving(Caller)
     if(Caller==nil)then print("Error: Button was used by null object!") end
-    if(self.CanBeInteractedDirectly()==true)
-    then
-        Door["DoorObjectRef"] = self.GetSelf();
-        if(self.GetIsLocked()==false or Cast:IsButton(Caller)==true)
+    if(Door["moving"]==false)
+    then 
+        if(self.CanBeInteractedDirectly()==true)
         then
-            PlaySoundFromFile(GetProjectDir()..Door["doorOpenSoundFilePath"],Actor:GetLocation(self.GetSelf()),1)
-            Door["moving"]=true;
+            Door["DoorObjectRef"] = self.GetSelf();
+            if(self.GetIsLocked()==false or Cast:IsButton(Caller)==true)
+            then
+                PlaySoundFromFile(GetProjectDir()..Door["doorOpenSoundFilePath"],Actor:GetLocation(self.GetSelf()),1)
+                Door["moving"]=true;
+            else
+                PlaySoundFromFile(GetProjectDir()..Door["doorLockedSoundFilePath"],Actor:GetLocation(self.GetSelf()),1)
+            end
         else
-            PlaySoundFromFile(GetProjectDir()..Door["doorLockedSoundFilePath"],Actor:GetLocation(self.GetSelf()),1)
-        end
-    else
-        if(Cast:IsButton(Caller)==true)
-        then
-            PlaySoundFromFile(GetProjectDir()..Door["doorOpenSoundFilePath"],Actor:GetLocation(self.GetSelf()),1)
-            Door["moving"]=true;
+            if(Cast:IsButton(Caller)==true)
+            then
+                PlaySoundFromFile(GetProjectDir()..Door["doorOpenSoundFilePath"],Actor:GetLocation(self.GetSelf()),1)
+                Door["moving"]=true;
+            end
         end
     end
 end
@@ -55,12 +58,13 @@ end
 function Door:StopMoving(actor)
     Door["openDoorPassedTime"] = 0;
     Door["moving"]=false;
-    if(actor.GetIsOpened()==true)then
+    if(actor.GetIsOpened()==true)
+    then
         actor.SetIsOpened(false);
     else
         actor.SetIsOpened(true);
     end
-    
+    actor.OnFinishedDoorMovement(); 
 end
 
 function Door:GetMovementDistance()

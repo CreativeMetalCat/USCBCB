@@ -1,18 +1,27 @@
 local Button = {}
 
 Button["KeyId"] = -1;
+Button["NeedsKey"] = -1;
+Button["RemoveKeyOnUse"] = -1;
 
-Button["False"] = true;
-
-function Button:BeginPlay()
+function Button:BeginPlay(KeyId,NeedsKey,RemoveKeyOnUse)
+    Button["KeyId"] = KeyId;
+    Button["NeedsKey"] = NeedsKey;
+    Button["RemoveKeyOnUse"] = RemoveKeyOnUse;
 end
 
 --Presser - who pressed the button
 function Button:OnPressed(Presser)
-    if(self.GetNeedsKey()==true)
+    if( Button["NeedsKey"]==true)
     then
-        PlaySoundFromFile(GetProjectDir().."Sounds/Interact/Button2.ogg",Actor:GetLocation(self.GetSelf()),1);
-        self.OnFail();
+        if(Player:HasKey(Presser, Button["KeyId"]))
+        then 
+            PlaySoundFromFile(GetProjectDir().."Sounds/Interact/KeycardUse1.ogg",Actor:GetLocation(self.GetSelf()),1);
+            self.OnSuccess();
+        else
+            PlaySoundFromFile(GetProjectDir().."Sounds/Interact/KeycardUse2.ogg",Actor:GetLocation(self.GetSelf()),1);
+            self.OnFail();
+        end
     else
         PlaySoundFromFile(GetProjectDir().."Sounds/Interact/Button.ogg",Actor:GetLocation(self.GetSelf()),1);
         local Actors = self.GetAllTargetActors();
